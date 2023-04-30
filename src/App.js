@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
+import Menu from './Components/Menu/Menu';
 import './App.css';
+import Categories from './Components/Categories/Categories';
+import items from './Components/data';
+
+
+
+const allCategories = ['همه', ...new Set(items.map((item) => item.category))];
+console.log(allCategories)
 
 function App() {
+ const [menuitem,setMenuitem]=useState(items) ;
+ const [categories , setCategories] = useState(allCategories)
+
+
+ const filteritems=(category)=>{
+  if( category ==="همه"){
+    setMenuitem(items);
+    return;
+  }
+ const newitems =items.filter((item)=> item.category === category);
+ setMenuitem(newitems)
+
+ }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="contaner flex flex-col items-center">
+      <div>
+        <header>
+          <h1 className='mt-5'> محصولات ما </h1>
+          <div className=' bg-blue-500 h-[3px] mt-2'></div>
+        </header>
+              </div>
+              <Categories filteritems={filteritems} categories={categories} />
+              <Menu items={menuitem}/>
+
     </div>
   );
 }
